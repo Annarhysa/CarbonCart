@@ -53,8 +53,8 @@ Follow this url to visit our web app:
 ## 🫂 Contributors
 Contributions make the open source community such an amazing place to learn, inspire, and create.
 The contributors to this project are <br></br>
-<a href="https://github.com/Prithvi2310/Weather-Predictor/graphs/contributors?from=2023-02-26&to=2023-03-05&type=c">
-  <img src="https://contrib.rocks/image?repo=Prithvi2310/Weather-Predictor" />
+<a href="https://github.com/Annarhysa/CarbonCart/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Annarhysa/CarbonCart" />
 </a>
 
 ## 🪪 License
