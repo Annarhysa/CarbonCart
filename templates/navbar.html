@@ -1,0 +1,28 @@
+<div>
+    <nav class="navbar navbar-expand-lg sticky-top bg-primary bg-gradient px-5">
+        <div class="container-fluid">
+            <!-- App Name on the Left -->
+            <a class="navbar-brand ps-5" href="{{ url_for('index') }}">CarbonCart</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                <!-- Nav Links in the Center -->
+                <div class="navbar-nav mx-auto justify-content-start">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('scan') }}">Scan</a>
+                    <a class="nav-link active" href="#">Link 22</a>
+                </div>
+                <!-- Login/Logout Link on the Right -->
+                <div class="navbar-nav pe-5">
+                    {% if user %}
+                        <a class="nav-link active" href="{{ url_for('logout') }}">Logout</a>
+                    {% else %}
+                        <a class="nav-link active" href="{{ url_for('login') }}">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

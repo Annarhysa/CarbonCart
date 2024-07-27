@@ -109,10 +109,16 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/info')
-def info():
+@app.route('/scan')
+def scan():
     user = session.get('user')
-    return render_template('info.html', user=user)
+    return render_template('scan.html', user=user)
+
+
+@app.route('/user')
+def user():
+    user = session.get('user')
+    return render_template('user.html', user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -123,7 +129,7 @@ def login():
         try:
             auth_response = supabase.auth.sign_in_with_password({"email": email, "password": password})
             session['user'] = auth_response.user
-            return redirect(url_for('index'))
+            return redirect(url_for('user'))
         except Exception as e:
             return str(e)
     return render_template('login.html')
@@ -133,7 +139,7 @@ def login():
 def logout():
     supabase.auth.sign_out()
     session.pop('user', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('user'))
 
 
 @app.route('/upload', methods=['POST'])
