@@ -85,15 +85,15 @@ def carbon_emission(inputs, data):
         else:
             result[item] = 'Item not found in dataset'
 
-    return 
+    return result
+
 
 def load_suggestions(user_input):
-
     def open_file(filepath):
         with open(filepath, 'r') as file:
             suggestions = json.load(file)
         return suggestions
-    
+
     suggestions_dict = open_file('../data/extracted_text/typos.txt')
 
     suggestions = {}
@@ -104,29 +104,37 @@ def load_suggestions(user_input):
                 suggestions[i] = term
     return suggestions
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/info')
-def info():
+@app.route('/scan')
+def scan():
     user = session.get('user')
-    return render_template('info.html', user=user)
+    return render_template('scan.html', user=user)
+
+
+@app.route('/user')
+def user():
+    user = session.get('user')
+    return render_template('user.html', user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         try:
             auth_response = supabase.auth.sign_in_with_password({"email": email, "password": password})
             session['user'] = auth_response.user
-            return redirect(url_for('index'))
+            return redirect(url_for('user'))
         except Exception as e:
-            return str(e)
-    return render_template('login.html')
+            error = str(e)
+    return render_template('login.html', error=error)
 
 
 @app.route('/logout')
@@ -147,7 +155,7 @@ def upload_image():
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(image_path)
         text = image_list(image_path)
-        #suggestions = load_suggestions(text)
+        # suggestions = load_suggestions(text)
         result_dict = process_user_input(text, df)
         return render_template('processed.html', text=result_dict)
 
