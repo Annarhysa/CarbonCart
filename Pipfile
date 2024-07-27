@@ -8,6 +8,9 @@ flask = "*"
 numpy = "*"
 pandas = "*"
 openpyxl = "*"
+pytesseract = "*"
+pillow = "*"
+easyocr = "*"
 
 [dev-packages]
 
