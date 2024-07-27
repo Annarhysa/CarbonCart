@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Extracted Text</h2>
-    <!-- <p>{{ text }}</p>   -->
-    <ul>
-        {% for item in text %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
+    <h2>Extracted Data</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Carbon Emission</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item, quantity in data.items() %}
+                <tr>
+                    <td>{{ item }}</td>
+                    <td>{{ quantity if quantity else 'Not specified' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <a href="{{ url_for('index') }}">Upload another image</a>
 {% endblock %}

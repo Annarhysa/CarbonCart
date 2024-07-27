@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Specify Items and Quantities</h2>
+    <form action="{{ url_for('submit') }}" method="post">
+        {% for item, quantity in text.items() %}
+            <div>
+                <label for="item_{{ item }}">{{ item }}:</label>
+                {% if item in session.dropdown_data %}
+                    <select name="item_{{ item }}" id="item_{{ item }}">
+                        <option value="">Select Item</option>
+                        {% for option in session.dropdown_data[item] %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <input type="hidden" name="item_{{ item }}" value="{{ item }}">
+                {% endif %}
+                <input type="number" name="quantity_{{ item }}" placeholder="Quantity in KG" step="any" value="{{ quantity if quantity is not none else '' }}">
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

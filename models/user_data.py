@@ -1,8 +1,5 @@
 import pandas as pd
 
-# Load dataset (assuming a CSV file with relevant data)
-df = pd.read_csv('./data/items_cp_stats.csv')
-
 # Read user input from a text file
 def read_user_input(file_path):
     with open(file_path, 'r') as file:
@@ -54,10 +51,3 @@ def process_user_input(inputs, data):
                 print(f"Item '{item}' not found in the dataset.")
 
     return result
-
-# Main logic
-if __name__ == "__main__":
-    user_inputs = read_user_input("../data/extracted_text/extracted.txt")
-    processed_data = process_user_input(user_inputs, df)
-
-    print(f"Processed Data: {processed_data}")
