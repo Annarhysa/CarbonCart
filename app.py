@@ -26,13 +26,17 @@ def upload_image():
     if file:
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(image_path)
-        # Perform OCR on the image  
+        # Perform OCR on the image
         text = perform_ocr(image_path)
         return render_template('result.html', text=text)
 
 def perform_ocr(image_path):
     result = reader.readtext(image_path)
-    extracted_text = ' '.join([text for _, text, _ in result])
+    print(result)
+    extracted_text = []
+    for _, text, _ in result:
+        extracted_text.append(text)
+    # extracted_text = ' '.join([text for _, text, _ in result])
     return extracted_text
 
 if __name__ == '__main__':

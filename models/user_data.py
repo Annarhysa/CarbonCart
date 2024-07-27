@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load dataset (assuming a CSV file with relevant data)
-df = pd.read_csv('../data/items_cp_stats.csv')
+df = pd.read_csv('./data/items_cp_stats.csv')
 
 # Read user input from a text file
 def read_user_input(file_path):
