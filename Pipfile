@@ -11,6 +11,8 @@ openpyxl = "*"
 pillow = "*"
 paddlepaddle = "*"
 paddleocr = "*"
+supabase = "*"
+flask-session = "*"
 
 [dev-packages]
 ipykernel = "*"
