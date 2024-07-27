@@ -87,38 +87,32 @@ def carbon_emission(inputs, data):
 
     return 
 
-def load_suggestions(filename):
-    with open(filename, 'r') as file:
-        suggestions = json.load(file)
+def load_suggestions(user_input):
 
-suggestions_dict = load_suggestions('../data/extracted_text/typos.txt')  # Adjust filename as needed
+    def open_file(filepath):
+        with open(filepath, 'r') as file:
+            suggestions = json.load(file)
+        return suggestions
+    
+    suggestions_dict = open_file('../data/extracted_text/typos.txt')
 
-user_input = ['Bear', 'Milch', 'Koffee']
-
-
-suggestions = {}
-for term, misspellings in suggestions_dict.items():
-    for i in user_input:
-        i = i.upper()
-        if i in misspellings:
-            suggestions[i] = term
-
+    suggestions = {}
+    for term, misspellings in suggestions_dict.items():
+        for i in user_input:
+            i = i.upper()
+            if i in misspellings:
+                suggestions[i] = term
+    return suggestions
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/scan')
-def scan():
+@app.route('/info')
+def info():
     user = session.get('user')
-    return render_template('scan.html', user=user)
-
-
-@app.route('/user')
-def user():
-    user = session.get('user')
-    return render_template('user.html', user=user)
+    return render_template('info.html', user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -129,7 +123,7 @@ def login():
         try:
             auth_response = supabase.auth.sign_in_with_password({"email": email, "password": password})
             session['user'] = auth_response.user
-            return redirect(url_for('user'))
+            return redirect(url_for('index'))
         except Exception as e:
             return str(e)
     return render_template('login.html')
@@ -139,7 +133,7 @@ def login():
 def logout():
     supabase.auth.sign_out()
     session.pop('user', None)
-    return redirect(url_for('user'))
+    return redirect(url_for('index'))
 
 
 @app.route('/upload', methods=['POST'])
@@ -153,6 +147,7 @@ def upload_image():
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(image_path)
         text = image_list(image_path)
+        #suggestions = load_suggestions(text)
         result_dict = process_user_input(text, df)
         return render_template('processed.html', text=result_dict)
 
