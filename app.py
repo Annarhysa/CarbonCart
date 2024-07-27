@@ -29,14 +29,5 @@ def upload_image():
         return render_template('result.html', text=text)
 
 
-# def perform_ocr(image_path):
-#     result = reader.readtext(image_path)
-#     print(result)
-#     extracted_text = []
-#     for _, text, _ in result:
-#         extracted_text.append(text)
-#     return extracted_text
-
-
 if __name__ == '__main__':
     app.run(debug=True)
