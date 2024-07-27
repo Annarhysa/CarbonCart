@@ -9,6 +9,9 @@ numpy = "*"
 pandas = "*"
 openpyxl = "*"
 pillow = "*"
+pytesseract = "*"
+pillow = "*"
+easyocr = "*"
 
 [dev-packages]
 
