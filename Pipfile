@@ -9,9 +9,8 @@ numpy = "*"
 pandas = "*"
 openpyxl = "*"
 pillow = "*"
-pytesseract = "*"
-pillow = "*"
-easyocr = "*"
+paddlepaddle = "*"
+paddleocr = "*"
 
 [dev-packages]
 ipykernel = "*"

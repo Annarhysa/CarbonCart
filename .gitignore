@@ -1,4 +1,5 @@
 .venv
-models/trial.
-
+models/trial.ipynb
+__pycache__/
+/*/__pycache__/
 uploads

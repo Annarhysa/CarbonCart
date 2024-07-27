@@ -1,29 +1,17 @@
-import easyocr
+from paddleocr import PaddleOCR
 
-image = '../data/images/digital_list.jpg'
 
-def image_list(image):
+def image_list(image_path):
+    # Initialize the PaddleOCR Reader
+    ocr = PaddleOCR(use_angle_cls=True, lang='en')  # use_angle_cls=True helps in detecting the text orientation
 
-    # Initialize the easyocr Reader
-    reader = easyocr.Reader(['en'])
-
-    # Path to the image file
-    image_path = image
-
-    # Use easyocr to extract text
-    result = reader.readtext(image_path)
+    # Use PaddleOCR to extract text
+    result = ocr.ocr(image_path, cls=True)
 
     # Extracted text
-    extracted_text = '\n'.join([res[1] for res in result])
+    extracted_text = []
+    for line in result:
+        for word_info in line:
+            extracted_text.append(word_info[1][0])
 
     return extracted_text
-    # # Print the extracted text
-    # print(extracted_text)
-
-    # # Save the extracted text to a file
-    # with open('../data/extracted_text/extracted.txt', 'w') as file:
-    #     file.write(extracted_text)
-
-    # print(f"Extracted text has been saved to 'extracted_text.txt'")
-
-# image_list(image)
