@@ -1,6 +1,5 @@
 from paddleocr import PaddleOCR
 
-image = '../data/images/digital_list.jpg'
 
 def image_list(image_path):
     # Initialize the PaddleOCR Reader
@@ -10,14 +9,9 @@ def image_list(image_path):
     result = ocr.ocr(image_path, cls=True)
 
     # Extracted text
-    extracted_text = ""
+    extracted_text = []
     for line in result:
         for word_info in line:
-            extracted_text += word_info[1][0] + ' '
-        extracted_text += '\n'
+            extracted_text.append(word_info[1][0])
 
-    return extracted_text.strip()
-
-# Example usage
-extracted_text = image_list(image)
-print(extracted_text)
+    return extracted_text
