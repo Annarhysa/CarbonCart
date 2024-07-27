@@ -13,6 +13,7 @@ paddlepaddle = "*"
 paddleocr = "*"
 supabase = "*"
 flask-session = "*"
+python-dotenv = "*"
 
 [dev-packages]
 ipykernel = "*"

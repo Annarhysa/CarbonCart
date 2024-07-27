@@ -1,17 +1,30 @@
-from flask import Flask, request, render_template, redirect, url_for, session
 import os
 import pandas as pd
+from flask import Flask, request, render_template, redirect, url_for, session
+from flask_session import Session
+
+from supabase import create_client, Client
+from dotenv import load_dotenv
 from models.ocr_read import image_list
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
-app.secret_key = 'your_secret_key'  # Needed for session management
+app.config['SESSION_TYPE'] = 'filesystem'
+app.secret_key = os.getenv('APP_KEY')  # Needed for session management
+Session(app)
+
+url = os.getenv('SUPABASE_URL')
+key = os.getenv('SUPABASE_KEY')
+supabase: Client = create_client(url, key)
 
 # Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Load dataset
 df = pd.read_csv('./data/items_cp_stats.csv')
+
 
 def extract_item_quantity(line):
     words = line.split()
@@ -25,6 +38,7 @@ def extract_item_quantity(line):
             item = ' '.join(words[:i])
             return item, quantity
     return line, quantity
+
 
 def process_user_input(inputs, data):
     items = data['FOOD COMMODITY ITEM'].str.lower().unique()
@@ -41,7 +55,8 @@ def process_user_input(inputs, data):
         else:
             matched_typology = [typology for typology in commodity_typologies if typology in item]
             if matched_typology:
-                specific_items = data[data['FOOD COMMODITY TYPOLOGY'].str.lower() == matched_typology[0]]['FOOD COMMODITY ITEM']
+                specific_items = data[data['FOOD COMMODITY TYPOLOGY'].str.lower() == matched_typology[0]][
+                    'FOOD COMMODITY ITEM']
                 dropdown_data[item] = specific_items.tolist()
                 result[item] = None
             else:
@@ -51,14 +66,15 @@ def process_user_input(inputs, data):
     session['item_details'] = item_details
     return result
 
+
 def carbon_emission(inputs, data):
     result = {}
     items = data['FOOD COMMODITY ITEM'].str.lower().unique()
-    
+
     for item, quantity in inputs.items():
         item = item.lower()
         quantity = float(quantity)  # Ensure quantity is a number
-        
+
         if item in items:
             # Get the median carbon emission for the item
             median_emission = data.loc[data['FOOD COMMODITY ITEM'].str.lower() == item, 'median'].values[0]
@@ -70,9 +86,38 @@ def carbon_emission(inputs, data):
 
     return result
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/info')
+def info():
+    user = session.get('user')
+    return render_template('info.html', user=user)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        try:
+            auth_response = supabase.auth.sign_in_with_password({"email": email, "password": password})
+            session['user'] = auth_response.user
+            return redirect(url_for('index'))
+        except Exception as e:
+            return str(e)
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    supabase.auth.sign_out()
+    session.pop('user', None)
+    return redirect(url_for('index'))
+
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
@@ -88,17 +133,18 @@ def upload_image():
         result_dict = process_user_input(text, df)
         return render_template('processed.html', text=result_dict)
 
+
 @app.route('/submit', methods=['POST'])
 def submit():
     form_data = request.form
     processed_data = {}
     dropdown_data = session.get('dropdown_data', {})
-    
+
     for key, value in form_data.items():
         if key.startswith('item_'):
             item_key = key.split('_', 1)[1]
             quantity = form_data.get(f'quantity_{item_key}', None)
-            
+
             # Check if the item_key is in dropdown_data
             if item_key in dropdown_data:
                 # Use the user's selection from the dropdown
@@ -107,10 +153,10 @@ def submit():
                     processed_data[selected_item.lower()] = quantity
             else:
                 processed_data[item_key.lower()] = quantity
-    
+
     # Now, processed_data has the correct item names and quantities
     result = carbon_emission(processed_data, df)
-    
+
     return render_template('result.html', data=result)
 
 
