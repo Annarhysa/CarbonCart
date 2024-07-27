@@ -14,6 +14,9 @@ paddleocr = "*"
 supabase = "*"
 flask-session = "*"
 python-dotenv = "*"
+spellchecker = "*"
+pyspellchecker = "*"
+textblob = "*"
 
 [dev-packages]
 ipykernel = "*"

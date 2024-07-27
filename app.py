@@ -1,4 +1,5 @@
 import os
+import json
 import pandas as pd
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_session import Session
@@ -84,7 +85,23 @@ def carbon_emission(inputs, data):
         else:
             result[item] = 'Item not found in dataset'
 
-    return result
+    return 
+
+def load_suggestions(filename):
+    with open(filename, 'r') as file:
+        suggestions = json.load(file)
+
+suggestions_dict = load_suggestions('../data/extracted_text/typos.txt')  # Adjust filename as needed
+
+user_input = ['Bear', 'Milch', 'Koffee']
+
+
+suggestions = {}
+for term, misspellings in suggestions_dict.items():
+    for i in user_input:
+        i = i.upper()
+        if i in misspellings:
+            suggestions[i] = term
 
 
 @app.route('/')
