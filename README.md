@@ -1,5 +1,5 @@
-# EcoCart
-A Eco-friendly support for your groceries\
+# CarbonCart
+A Carbon-friendly support for your groceries\
 Identifying the carbon footprints of grocery purchase
 
 ## 📃 Brief Overview
