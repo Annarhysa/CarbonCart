@@ -20,18 +20,33 @@
             </tbody>
         </table>
     </div>
-    <h2>Recommended Alternatives</h2>
-    <ul>
-    {% for item, alternatives in recommendations.items() %}
-        <li>{{ item }}:
-        <ul>
-            {% for alt in alternatives %}
-            <li>{{ alt }}</li>
-            {% endfor %}
-        </ul>
-        </li>
-    {% endfor %}
-    </ul>
+    
+    <h2 class="mt-5">Recommended Alternatives</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Original Item</th>
+                    <th scope="col">Recommended Alternatives</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item, alternatives in recommendations.items() %}
+                    <tr>
+                        <td>{{ item }}</td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for alt in alternatives %}
+                                    <li>{{ alt }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     <a href="{{ url_for('scan') }}" class="btn btn-secondary mt-3">Upload another image</a>
 </div>
 {% endblock %}
