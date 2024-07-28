@@ -1,5 +1,10 @@
 .venv
 models/trial.ipynb
+.env
 __pycache__/
 /*/__pycache__/
 uploads
+
+models/__pycache__
+
+flask_session

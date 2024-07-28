@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5 updates">
+    <h2 class="mb-4">Specify Items and Quantities</h2>
+    <form action="{{ url_for('submit') }}" method="post">
+        <div class="form-group">
+            {% for item, quantity in text.items() %}
+                <div class="mb-3">
+                    <label for="item_{{ item }}" class="form-label">{{ item }}:</label>
+                    {% if item in session.dropdown_data %}
+                        <select class="form-control" name="item_{{ item }}" id="item_{{ item }}">
+                            <option value="">Select Item</option>
+                            {% for option in session.dropdown_data[item] %}
+                                <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <input type="hidden" name="item_{{ item }}" value="{{ item }}">
+                    {% endif %}
+                    <input type="number" class="form-control mt-2" name="quantity_{{ item }}" placeholder="Quantity in KG" step="any" value="{{ quantity if quantity is not none else '' }}">
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}
