@@ -1,5 +1,4 @@
 import os
-import json
 import pandas as pd
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_session import Session
@@ -85,24 +84,8 @@ def carbon_emission(inputs, data):
         else:
             result[item] = 'Item not found in dataset'
 
-    return 
+    return result
 
-def load_suggestions(user_input):
-
-    def open_file(filepath):
-        with open(filepath, 'r') as file:
-            suggestions = json.load(file)
-        return suggestions
-    
-    suggestions_dict = open_file('../data/extracted_text/typos.txt')
-
-    suggestions = {}
-    for term, misspellings in suggestions_dict.items():
-        for i in user_input:
-            i = i.upper()
-            if i in misspellings:
-                suggestions[i] = term
-    return suggestions
 
 @app.route('/')
 def index():
@@ -147,7 +130,6 @@ def upload_image():
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(image_path)
         text = image_list(image_path)
-        #suggestions = load_suggestions(text)
         result_dict = process_user_input(text, df)
         return render_template('processed.html', text=result_dict)
 
