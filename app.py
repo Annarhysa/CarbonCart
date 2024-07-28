@@ -8,6 +8,7 @@ from flask_session import Session
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from models.ocr_read import image_list
+from models.recommend_model import recommend_alternatives
 
 load_dotenv()
 
@@ -93,9 +94,10 @@ def load_suggestions(user_input):
     suggestions_dict = open_file('./data/extracted_text/typos.txt')
 
     suggestions = {}
-    for term, misspellings in suggestions_dict.items():
-        for i in user_input:
-            i = i.upper()
+    
+    for i in user_input:
+        i = i.upper()
+        for term, misspellings in suggestions_dict.items():
             if i in misspellings:
                 suggestions[i] = term
     return suggestions
@@ -192,7 +194,10 @@ def submit():
     # Now, processed_data has the correct item names and quantities
     result = carbon_emission(processed_data, df)
 
-    return render_template('result.html', data=result)
+    # Get recommendations for lower carbon alternatives
+    recommendations = recommend_alternatives(processed_data, df)
+
+    return render_template('result.html', data=result, recommendations=recommendations)
 
 
 if __name__ == '__main__':

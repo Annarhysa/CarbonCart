@@ -20,6 +20,18 @@
             </tbody>
         </table>
     </div>
+    <h2>Recommended Alternatives</h2>
+    <ul>
+    {% for item, alternatives in recommendations.items() %}
+        <li>{{ item }}:
+        <ul>
+            {% for alt in alternatives %}
+            <li>{{ alt }}</li>
+            {% endfor %}
+        </ul>
+        </li>
+    {% endfor %}
+    </ul>
     <a href="{{ url_for('scan') }}" class="btn btn-secondary mt-3">Upload another image</a>
 </div>
 {% endblock %}
