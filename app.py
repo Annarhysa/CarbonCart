@@ -53,8 +53,7 @@ def process_user_input(inputs, data):
         else:
             matched_typology = [typology for typology in commodity_typologies if typology in item]
             if matched_typology:
-                specific_items = data[data['FOOD COMMODITY TYPOLOGY'].str.lower() == matched_typology[0]][
-                    'FOOD COMMODITY ITEM']
+                specific_items = data[data['FOOD COMMODITY TYPOLOGY'].str.lower() == matched_typology[0]]['FOOD COMMODITY ITEM']
                 dropdown_data[item] = specific_items.tolist()
                 result[item] = None
             else:
@@ -159,6 +158,31 @@ def upload_image():
             result_dict = process_user_input(text, df)
             return render_template('processed.html', text=result_dict)
         return render_template('suggestions.html', text=text, suggestions=suggestions)
+
+@app.route('/manual_input', methods=['GET', 'POST'])
+def manual_input():
+    if request.method == 'POST':
+        form_data = request.form
+        processed_data = {}
+        
+        for key, value in form_data.items():
+            if key.startswith('item_'):
+                item_key = key.split('_', 1)[1]
+                quantity = form_data.get(f'quantity_{item_key}', None)
+                if quantity:
+                    processed_data[item_key.lower()] = float(quantity)
+        
+        result = carbon_emission(processed_data, df)
+        recommendations = recommend_alternatives(processed_data, df)
+        return render_template('result.html', data=result, recommendations=recommendations)
+
+    typologies = df['FOOD COMMODITY TYPOLOGY'].str.lower().unique()
+    return render_template('manual_input.html', typologies=typologies)
+
+@app.route('/get_items/<typology>', methods=['GET'])
+def get_items(typology):
+    items = df[df['FOOD COMMODITY TYPOLOGY'].str.lower() == typology]['FOOD COMMODITY ITEM'].str.lower().unique()
+    return json.dumps(items)
 
 
 @app.route('/confirm_suggestions', methods=['POST'])

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Manual Input</h2>
+    <form action="{{ url_for('manual_input') }}" method="post" id="manualInputForm">
+        <div id="itemList">
+            <div class="form-group row mb-3 item-entry">
+                <div class="col-md-4">
+                    <label for="typology_0" class="form-label">Food Commodity Typology</label>
+                    <select class="form-control typology" id="typology_0" name="typology_0">
+                        <option value="">Select Typology</option>
+                        {% for typology in typologies %}
+                            <option value="{{ typology }}">{{ typology }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="item_0" class="form-label">Food Commodity Item</label>
+                    <select class="form-control item" id="item_0" name="item_0" disabled>
+                        <option value="">Select Item</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="quantity_0" class="form-label">Quantity (KG)</label>
+                    <input type="number" class="form-control" id="quantity_0" name="quantity_0" step="any" min="0" placeholder="Enter quantity">
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" id="addItem">Add Another Item</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let itemIndex = 1;
+
+    document.getElementById('addItem').addEventListener('click', function() {
+        const itemList = document.getElementById('itemList');
+        const newItem = document.querySelector('.item-entry').cloneNode(true);
+        
+        // Update IDs and names for new elements
+        newItem.querySelector('.typology').id = `typology_${itemIndex}`;
+        newItem.querySelector('.typology').name = `typology_${itemIndex}`;
+        newItem.querySelector('.item').id = `item_${itemIndex}`;
+        newItem.querySelector('.item').name = `item_${itemIndex}`;
+        newItem.querySelector('.quantity').id = `quantity_${itemIndex}`;
+        newItem.querySelector('.quantity').name = `quantity_${itemIndex}`;
+        
+        // Clear values in cloned elements
+        newItem.querySelector('.typology').selectedIndex = 0;
+        newItem.querySelector('.item').innerHTML = '<option value="">Select Item</option>';
+        newItem.querySelector('.item').disabled = true;
+        newItem.querySelector('.quantity').value = '';
+
+        itemList.appendChild(newItem);
+        itemIndex++;
+    });
+
+    document.getElementById('manualInputForm').addEventListener('change', function(event) {
+        if (event.target.classList.contains('typology')) {
+            const selectedTypology = event.target.value;
+            const itemDropdown = event.target.closest('.item-entry').querySelector('.item');
+            
+            if (selectedTypology) {
+                fetch(`/get_items/${selectedTypology}`)
+                    .then(response => response.json())
+                    .then(items => {
+                        itemDropdown.innerHTML = '<option value="">Select Item</option>';
+                        items.forEach(item => {
+                            itemDropdown.innerHTML += `<option value="${item}">${item}</option>`;
+                        });
+                        itemDropdown.disabled = false;
+                    });
+            } else {
+                itemDropdown.innerHTML = '<option value="">Select Item</option>';
+                itemDropdown.disabled = true;
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
