@@ -1,4 +1,103 @@
 {% extends 'base.html' %}
+
 {% block content %}
-	<h1 class="text-center">Index page</h1>
+<div class="custom-container">
+    <div class="my-4">
+        <h1>CarbonCart</h1>
+        <p>A Eco-friendly support for your groceries</p>
+        <p>Identifying the carbon footprints of grocery purchases</p>
+    </div>
+
+    <section id="overview" class="mb-5">
+        <h2>📃 Brief Overview</h2>
+        <p>Welcome to CarbonCart, a Groceries Carbon Footprint Calculator! This web application helps users understand the
+            environmental impact of their grocery purchases by converting digital notes into text, analyzing the carbon footprint of
+            each item, and providing recommendations for more sustainable alternatives.</p>
+    </section>
+
+    <section id="key-insights" class="mb-5">
+        <h2>💡 Key Insights</h2>
+        <ul>
+            <li><strong>Screenshot to Text Conversion:</strong> Users upload a screenshot of their digital grocery list from their phone notes. The
+            application uses Optical Character Recognition (OCR) to convert the image into a text file containing the names of the
+            groceries.</li>
+            <li><strong>Carbon Footprint Analysis:</strong> The text file is compared with a dataset that includes the carbon emissions per kilogram
+            for each item. This allows the application to calculate the total carbon footprint of the user's grocery purchases.</li>
+            <li><strong>Sustainable Alternatives:</strong> The recommendation engine suggests alternative products with lower carbon footprints,
+            helping users make more environmentally conscious choices.</li>
+        </ul>
+    </section>
+
+    <section id="timeline" class="mb-5">
+        <h2>📈 Timeline</h2>
+        <ul>
+            <li>→ This project was initiated with a blank repository on 27/07/2024.</li>
+            <li>→ In the evening of 27/04/2024, OCR implementation was done and integrated successfully in the website.</li>
+            <li>→ End of day 27/07/2024, the website UI was done and was made responsive enough for presentation.</li>
+            <li>→ User profiles and authentication were also implemented successfully by 28/07/2024 morning.</li>
+            <li>→ The auto correct and recommendation engine features were done and added in the morning of 28/07/2024.</li>
+            <li>→ A simple working web app was created by the afternoon of 28/07/2024 with the functionality of calculating the total
+            carbon footprint of the items in the groceries purchased.</li>
+            <li>→ By the end of 28/07/2024, we had a small web app running with the functionality to calculate the carbon footprint of
+            groceries purchased by a person.</li>
+        </ul>
+    </section>
+
+    <section id="what-worked" class="mb-5">
+        <h2>🥳 What Worked</h2>
+        <ul>
+            <li>The UI and backend logic of the website is fully functional with smooth integration with OCR.</li>
+            <li>The website takes in an image of the grocery list and converts it into text for the total carbon footprint calculation.</li>
+            <li>The recommendation engine for low carbon footprint alternatives for the purchases works well and is also integrated
+            with the website.</li>
+            <li>For manual input, triggered when the OCR fails to recognize something or if the quantity is missing, the
+            feature of auto-correction has been implemented successfully.</li>
+        </ul>
+    </section>
+
+    <section id="future-plans" class="mb-5">
+        <h2>📌 What We Plan to Add Further</h2>
+        <ul>
+            <li>We plan to add a feature to manually input data into the website for carbon footprint calculation.</li>
+            <li>We also intend to add an input method where the user can directly click a picture of the receipt and the data is
+            directly taken from there.</li>
+        </ul>
+    </section>
+
+    <section id="demo-video" class="mb-5">
+        <h2>📽️ Demo Video</h2>
+        <p><a href="https://youtu.be/F6ADs4SCUSQ" target="_blank">Watch the demo video</a></p>
+    </section>
+
+    <section id="contributors" class="mb-5">
+        <h2>🫂 Contributors</h2>
+        <p>Contributions make the open-source community such an amazing place to learn, inspire, and create. The contributors to this project are:</p>
+        <a href="https://github.com/Annarhysa/CarbonCart/graphs/contributors">
+            <img src="https://contrib.rocks/image?repo=Annarhysa/CarbonCart" alt="Contributors">
+            <img src="https://contrib.rocks/image?repo=Prithvi2310/Codes" alt="Contributors">
+        </a>
+    </section>
+
+    <section id="privacy-policy" class="mb-5">
+        <h2>🛡️ Privacy Policy</h2>
+        <h3>Data Collection and Usage</h3>
+        <p>All data collected through our platform is used solely for the purpose of showing users their history. We use <a href="https://supabase.io" target="_blank">Supabase</a>,
+        an open-source backend as a service, to handle all authentication and data collection.</p>
+        
+        <h3>Data Protection</h3>
+        <p>We are committed to ensuring that your data is secure. We do not sell, distribute, or lease your personal information to
+        third parties outside of our organization.</p>
+        
+        <h3>Access to Data</h3>
+        <p>Only certain authorized officials within our organization have limited access to the database. This access is restricted
+        and used exclusively for development and maintenance purposes.</p>
+    </section>
+
+    <section id="license" class="mb-5">
+        <h2>🪪 License</h2>
+        <p>Please have a look at the <a href="LICENSE.md">LICENSE</a> for more details.</p>
+    </section>
+
+    <p class="text-end"><a href="#top">back to top</a></p>
+</div>
 {% endblock %}

@@ -19,14 +19,6 @@ each item, and providing recommendations for more sustainable alternatives.
 - Sustainable Alternatives: The recommendation engine suggests alternative products with lower carbon footprints,
   helping users make more environmentally conscious choices.
 
-## 💯 Outcomes
-
-Once the model has been trained, it can be used to make predictions about future weather conditions based on current
-weather data. These predictions can be used by meteorologists, emergency responders, and other professionals to plan for
-and respond to weather events.<br>
-Follow this url to visit our web app:
-<a href = #>#</a>
-
 ## 📈 Timeline
 
 |→ This project was initiated with a blank repository on 27/07/2024.\

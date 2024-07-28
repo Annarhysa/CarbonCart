@@ -106,3 +106,85 @@ h2 {
 .table-padding{
     background-color: #9fc6f0;
 }
+
+.custom-container {
+    width:200%; /* Adjust the width as needed (e.g., 70%, 900px, etc.) */
+    max-width: 1200px; /* Set a maximum width to prevent excessive stretching on large screens */
+    margin: 0px; /* Center the container */
+    padding: 20px; /* Optional: Add padding inside the container */
+    text-align: left;
+    margin-left: -250px;
+}
+
+h2 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group .form-label {
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+
+.btn-secondary, .btn-primary {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.item-entry {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.item-entry .form-control {
+    margin-bottom: 10px;
+}
+
+.item-entry .form-control:last-child {
+    margin-bottom: 0;
+}
+
+.quant{
+    margin-top: 48px;
+}
