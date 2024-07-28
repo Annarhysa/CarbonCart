@@ -37,6 +37,9 @@ Follow this url to visit our web app:
 - We plan to add a feature to manually input data into the website for carbon footprint calculation.
 - We also intend to add an input method where the user can directly click a picture of the receipt and the data is directly taken from there.`
 
+## Demo Video
+https://youtu.be/F6ADs4SCUSQ
+
 ## 🫂 Contributors
 Contributions make the open source community such an amazing place to learn, inspire, and create.
 The contributors to this project are <br></br>
@@ -47,6 +50,6 @@ The contributors to this project are <br></br>
 ## 🪪 License
 
 The MIT License - [Ananrhysa Albert](https://github.com/Annarhysa/)\
-Please have a look at the [LICENSE.md](license.md) for more details.
+Please have a look at the [LICENSE.md](LICENCE) for more details.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
