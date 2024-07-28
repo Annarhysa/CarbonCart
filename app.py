@@ -164,12 +164,17 @@ def upload_image():
 @app.route('/confirm_suggestions', methods=['POST'])
 def confirm_suggestions():
     corrected_text = session.get('original_text', [])
-    for original_word in corrected_text:
-        suggested_word = request.form.get(original_word)
-        if suggested_word and suggested_word != original_word:
-            # Replace the original word with the suggested one
-            corrected_text = [suggested_word if word == original_word else word for word in corrected_text]
+    print("Submitted data:", request.form)
 
+    filtered_suggestions = {}
+
+    # Loop through the form data
+    for original_word in request.form:
+        suggested_word = request.form.get(original_word)
+        if suggested_word and suggested_word != '0' and suggested_word.lower() != 'false':
+            filtered_suggestions[original_word] = suggested_word
+
+    corrected_text += list(filtered_suggestions.values())
     # Continue with processing using corrected_text
     result_dict = process_user_input(corrected_text, df)
     return render_template('processed.html', text=result_dict)
