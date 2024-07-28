@@ -48,7 +48,7 @@ groceries purchased by a person.
 
 ## 📽️ Demo Video
 
-https://youtu.be/F6ADs4SCUSQ
+Please find out website demo: https://youtu.be/5LZdxYBY14E
 
 ## ⚒️ Setting up the project
 
