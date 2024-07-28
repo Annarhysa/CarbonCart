@@ -155,6 +155,9 @@ def upload_image():
         text = image_list(image_path)
         suggestions = load_suggestions(text)
         session['original_text'] = text  # Store original text in session
+        if not suggestions:
+            result_dict = process_user_input(text, df)
+            return render_template('processed.html', text=result_dict)
         return render_template('suggestions.html', text=text, suggestions=suggestions)
 
 @app.route('/confirm_suggestions', methods=['POST'])
