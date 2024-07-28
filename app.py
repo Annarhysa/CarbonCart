@@ -1,4 +1,6 @@
 import os
+import json
+import re
 import pandas as pd
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_session import Session
@@ -27,17 +29,12 @@ df = pd.read_csv('./data/items_cp_stats.csv')
 
 
 def extract_item_quantity(line):
-    words = line.split()
-    quantity = None
-    for i, word in enumerate(words):
-        if word.lower().endswith('kg'):
-            try:
-                quantity = float(word.lower().replace('kg', ''))
-            except ValueError:
-                continue
-            item = ' '.join(words[:i])
-            return item, quantity
-    return line, quantity
+    match = re.search(r'(\d+\.?\d*)\s*(kg|KG|Kg|kG)?', line)
+    if match:
+        quantity = float(match.group(1))
+        item = re.sub(r'(\d+\.?\d*\s*kg|KG|Kg|kG)', '', line).strip()
+        return item, quantity
+    return line, None
 
 
 def process_user_input(inputs, data):
@@ -87,29 +84,53 @@ def carbon_emission(inputs, data):
     return result
 
 
+def load_suggestions(user_input):
+    def open_file(filepath):
+        with open(filepath, 'r') as file:
+            suggestions = json.load(file)
+        return suggestions
+
+    suggestions_dict = open_file('./data/extracted_text/typos.txt')
+
+    suggestions = {}
+    for term, misspellings in suggestions_dict.items():
+        for i in user_input:
+            i = i.upper()
+            if i in misspellings:
+                suggestions[i] = term
+    return suggestions
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/info')
-def info():
+@app.route('/scan')
+def scan():
     user = session.get('user')
-    return render_template('info.html', user=user)
+    return render_template('scan.html', user=user)
+
+
+@app.route('/user')
+def user():
+    user = session.get('user')
+    return render_template('user.html', user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         try:
             auth_response = supabase.auth.sign_in_with_password({"email": email, "password": password})
             session['user'] = auth_response.user
-            return redirect(url_for('index'))
+            return redirect(url_for('user'))
         except Exception as e:
-            return str(e)
-    return render_template('login.html')
+            error = str(e)
+    return render_template('login.html', error=error)
 
 
 @app.route('/logout')
@@ -130,8 +151,22 @@ def upload_image():
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(image_path)
         text = image_list(image_path)
-        result_dict = process_user_input(text, df)
-        return render_template('processed.html', text=result_dict)
+        suggestions = load_suggestions(text)
+        session['original_text'] = text  # Store original text in session
+        return render_template('suggestions.html', text=text, suggestions=suggestions)
+
+@app.route('/confirm_suggestions', methods=['POST'])
+def confirm_suggestions():
+    corrected_text = session.get('original_text', [])
+    for original_word in corrected_text:
+        suggested_word = request.form.get(original_word)
+        if suggested_word and suggested_word != original_word:
+            # Replace the original word with the suggested one
+            corrected_text = [suggested_word if word == original_word else word for word in corrected_text]
+    
+    # Continue with processing using corrected_text
+    result_dict = process_user_input(corrected_text, df)
+    return render_template('processed.html', text=result_dict)
 
 
 @app.route('/submit', methods=['POST'])

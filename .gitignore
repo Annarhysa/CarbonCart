@@ -6,3 +6,5 @@ __pycache__/
 uploads
 
 models/__pycache__
+
+flask_session

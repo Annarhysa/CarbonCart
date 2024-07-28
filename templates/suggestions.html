@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5 updates">
+    <h2>Review Suggestions</h2>
+    <form action="{{ url_for('confirm_suggestions') }}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Original Word</th>
+                    <th>Suggested Correction</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for word, suggestion in suggestions.items() %}
+                    <tr>
+                        <td>{{ word }}</td>
+                        <td>{{ suggestion }}</td>
+                        <td>
+                            <input type="radio" name="{{ word }}" value="{{ word }}" checked>No
+                            <input type="radio" name="{{ word }}" value="{{ suggestion }}">Yes
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" value="Confirm">
+    </form>
+</div>
+{% endblock %}
