@@ -94,7 +94,7 @@ def load_suggestions(user_input):
     suggestions_dict = open_file('./data/extracted_text/typos.txt')
 
     suggestions = {}
-    
+
     for i in user_input:
         i = i.upper()
         for term, misspellings in suggestions_dict.items():
@@ -160,6 +160,7 @@ def upload_image():
             return render_template('processed.html', text=result_dict)
         return render_template('suggestions.html', text=text, suggestions=suggestions)
 
+
 @app.route('/confirm_suggestions', methods=['POST'])
 def confirm_suggestions():
     corrected_text = session.get('original_text', [])
@@ -168,7 +169,7 @@ def confirm_suggestions():
         if suggested_word and suggested_word != original_word:
             # Replace the original word with the suggested one
             corrected_text = [suggested_word if word == original_word else word for word in corrected_text]
-    
+
     # Continue with processing using corrected_text
     result_dict = process_user_input(corrected_text, df)
     return render_template('processed.html', text=result_dict)
