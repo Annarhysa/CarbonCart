@@ -76,7 +76,6 @@ Contributions make the open source community such an amazing place to learn, ins
 The contributors to this project are <br></br>
 <a href="https://github.com/Annarhysa/CarbonCart/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=Annarhysa/CarbonCart" />
-<img src="https://contrib.rocks/image?repo=Prithvi2310/Codes"/>
 </a>
 
 ## 🛡️ Privacy Policy
